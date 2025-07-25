@@ -6,7 +6,7 @@ variable "aws_region" {
 
 variable "ecr_repo_name" {
   type        = string
-  default     = "strapi-varun-ecr-repo"
+  default     = "strapi-varunn-ecr-repo"
   description = "Name of the ECR repository"
 }
 variable "image_tag" {

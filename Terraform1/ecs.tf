@@ -3,7 +3,7 @@ resource "aws_ecs_cluster" "strapi_cluster" {
 }
 
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name = "ecs-varun-execution-role"
+  name = "ecs-varunn-execution-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
@@ -25,7 +25,7 @@ resource "aws_iam_role_policy_attachment" "ecs_execution_attach" {
 }
 
 resource "aws_cloudwatch_log_group" "strapi_logs" {
-  name              = "/ecs/strapi-varun"
+  name              = "/ecs/strapi-varunn"
   retention_in_days = 7
 }
 

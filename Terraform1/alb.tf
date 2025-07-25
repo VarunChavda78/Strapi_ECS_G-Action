@@ -24,7 +24,7 @@ resource "aws_security_group" "alb_sg" {
 }
 
 resource "aws_security_group" "ecs_task_sg" {
-  name        = "strapi-varun-task-sg"
+  name        = "strapi-varunn-task-sg"
   description = "Allow traffic from ALB"
   vpc_id      = data.aws_vpc.default.id
 
@@ -62,7 +62,7 @@ resource "aws_lb" "strapi_alb" {
 }
 
 resource "aws_lb_target_group" "strapi_tg" {
-  name        = "strapi-varun-tg"
+  name        = "strapi-varunn-tg"
   port        = var.container_port
   protocol    = "HTTP"
   vpc_id      = data.aws_vpc.default.id
