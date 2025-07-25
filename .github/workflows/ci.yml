@@ -26,10 +26,14 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v2
+      uses: aws-actions/configure-aws-credentials@v3
       with:
-        role-to-assume: arn:aws:iam::607700977843:role/ecs-varun-execution-role
-        aws-region: ${{ env.AWS_REGION }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-2
+
+    - name: Log in to Amazon ECR
+      uses: aws-actions/amazon-ecr-login@v2
 
     - name: Login to Amazon ECR
       id: login-ecr
