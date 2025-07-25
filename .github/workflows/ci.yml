@@ -7,11 +7,11 @@ on:
 
 env:
   AWS_REGION: us-east-2
-  ECR_REPOSITORY: strapi-ecr-repo  # your actual repo name
-  ECS_CLUSTER: strapi-cluster
-  ECS_SERVICE: strapi-service
-  ECS_TASK_DEFINITION: strapi-task
-  CONTAINER_NAME: strapi
+  ECR_REPOSITORY: strapi-varun-ecr-repo
+  ECS_CLUSTER: strapi-varun-cluster
+  ECS_SERVICE: strapi-varun-service
+  ECS_TASK_DEFINITION: postgres17
+  CONTAINER_NAME: strapi-varun-container
 
 jobs:
   deploy:
@@ -28,7 +28,7 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v2
       with:
-        role-to-assume: arn:aws:iam::YOUR_ACCOUNT_ID:role/YOUR_GITHUB_ROLE
+        role-to-assume: arn:aws:iam::607700977843:role/ecs-varun-execution-role
         aws-region: ${{ env.AWS_REGION }}
 
     - name: Login to Amazon ECR
@@ -36,12 +36,14 @@ jobs:
       uses: aws-actions/amazon-ecr-login@v2
 
     - name: Build and Push Docker image to ECR
+      id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo "IMAGE_URI=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
 
     - name: Download existing task definition
       run: |
@@ -49,16 +51,20 @@ jobs:
 
     - name: Update image in task definition
       run: |
-        jq --arg IMAGE "$ECR_REGISTRY/$ECR_REPOSITORY:$GITHUB_SHA" \
+        sudo apt-get update && sudo apt-get install -y jq
+        jq --arg IMAGE "$IMAGE_URI" \
           '.taskDefinition.containerDefinitions[0].image = $IMAGE' \
           task-def.json > new-task-def.json
 
     - name: Register new task definition
       id: task-def
       run: |
-        NEW_TASK_DEF_ARN=$(aws ecs register-task-definition --cli-input-json file://new-task-def.json --query 'taskDefinition.taskDefinitionArn' --output text)
+        NEW_TASK_DEF_ARN=$(aws ecs register-task-definition --cli-input-json file://new-task-def.json \
+          --query 'taskDefinition.taskDefinitionArn' --output text)
         echo "task_def_arn=$NEW_TASK_DEF_ARN" >> $GITHUB_ENV
 
     - name: Update ECS service to use new task definition
       run: |
-        aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --task-definition ${{ env.task_def_arn }}
+        aws ecs update-service --cluster $ECS_CLUSTER \
+          --service $ECS_SERVICE \
+          --task-definition ${{ env.task_def_arn }}
