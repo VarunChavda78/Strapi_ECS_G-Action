@@ -23,5 +23,4 @@ jobs:
         run: terraform init
 
       - name: Terraform Action - Apply or Destroy
-        run: terraform apply -auto-approve \
-            -var="image_tag=latest"
+        run: terraform apply -auto-approve -var="image_tag=latest"            
