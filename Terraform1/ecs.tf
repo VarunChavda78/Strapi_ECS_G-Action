@@ -11,20 +11,13 @@ resource "aws_iam_role" "ecs_task_execution_role" {
       {
         Effect = "Allow",
         Principal = {
-          Federated = "arn:aws:iam::607700977843:oidc-provider/token.actions.githubusercontent.com"
+          Service = "ecs-tasks.amazonaws.com"
         },
-        Action = "sts:AssumeRoleWithWebIdentity",
-        Condition = {
-          StringEquals = {
-            "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com",
-            "token.actions.githubusercontent.com:sub" = "repo:PearlThoughts-DevOps-Internship/Strapi-Monitor-Hub:ref:refs/heads/varun"
-          }
-        }
+        Action = "sts:AssumeRole"
       }
     ]
   })
 }
-
 
 resource "aws_iam_role_policy_attachment" "ecs_execution_attach" {
   role       = aws_iam_role.ecs_task_execution_role.name
