@@ -29,6 +29,6 @@ jobs:
         working-directory: Terraform1/
         run: terraform init
 
-      - name: Terraform Action - Apply
+      - name: Terraform Action - Apply.
         working-directory: Terraform1/
         run: terraform apply -auto-approve -var="image_tag=latest"            
