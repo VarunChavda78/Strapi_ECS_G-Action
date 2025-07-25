@@ -42,7 +42,7 @@ resource "aws_ecs_task_definition" "strapi_task" {
   container_definitions = jsonencode([
     {
       name      = "strapi-varun-container"
-      image     = "607700977843.dkr.ecr.us-east-2.amazonaws.com/strapi-varun-ecr-repo:latest"
+      image     = "607700977843.dkr.ecr.us-east-2.amazonaws.com/strapi-varun-ecr-repo:${var.image_tag}"
       essential = true
       portMappings = [
         {
@@ -52,7 +52,7 @@ resource "aws_ecs_task_definition" "strapi_task" {
       ]
       environment = [
         { name = "DATABASE_CLIENT",      value = "postgres" },
-        { name = "DATABASE_HOST",        value = "strapi-varun-db-instance.cbymg2mgkcu2.us-east-2.rds.amazonaws.com" },
+        { name = "DATABASE_HOST",        value = local.rds_endpoint },
         { name = "DATABASE_PORT",        value = "5432" },
         { name = "DATABASE_NAME",        value = "strapi" },
         { name = "DATABASE_USERNAME",    value = "strapi" },

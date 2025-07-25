@@ -9,7 +9,9 @@ variable "ecr_repo_name" {
   default     = "strapi-varun-ecr-repo"
   description = "Name of the ECR repository"
 }
-
+variable "image_tag" {
+  type = string
+}
 variable "container_port" {
   type        = number
   default     = 1337
@@ -24,4 +26,8 @@ variable "desired_count" {
 
 output "rds_endpoint" {
   value = aws_db_instance.strapi_db.address
+}
+
+locals {
+  rds_endpoint = aws_db_instance.strapi_db.address
 }
