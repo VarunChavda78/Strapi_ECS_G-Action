@@ -1,10 +1,10 @@
 # rds.tf
 resource "aws_db_subnet_group" "strapi_db_subnet_group" {
-  name       = "strapi-varunn-ddb-subnet-group"
+  name       = "strapi-varun-ddb-subnet-group"
   subnet_ids = data.aws_subnets.default_vpc_subnets.ids
 
   tags = {
-    Name = "strapi-db-subnet-group"
+    Name = "strapi-varun-ddb-subnet-group"
   }
 }
 

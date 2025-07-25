@@ -1,5 +1,5 @@
 resource "aws_security_group" "alb_sg" {
-  name        = "strapi-varunn-aalb-sg"
+  name        = "strapi-varun-alb-sg"
   description = "Allow HTTP access"
   vpc_id      = data.aws_vpc.default.id
 
@@ -19,12 +19,12 @@ resource "aws_security_group" "alb_sg" {
   }
 
   tags = {
-    Name = "strapi-varunn-aalb-sg"
+    Name = "strapi-varun-alb-sg"
   }
 }
 
 resource "aws_security_group" "ecs_task_sg" {
-  name        = "strapi-varunn-ttask-sg"
+  name        = "strapi-varun-ttask-sg"
   description = "Allow traffic from ALB"
   vpc_id      = data.aws_vpc.default.id
 
@@ -43,7 +43,7 @@ resource "aws_security_group" "ecs_task_sg" {
   }
 
   tags = {
-    Name = "strapi-varunn-ttask-sg"
+    Name = "strapi-varun-ttask-sg"
   }
 }
 
@@ -62,7 +62,7 @@ resource "aws_lb" "strapi_alb" {
 }
 
 resource "aws_lb_target_group" "strapi_tg" {
-  name        = "strapi-varunn-ttg"
+  name        = "strapi-varun-tg"
   port        = var.container_port
   protocol    = "HTTP"
   vpc_id      = data.aws_vpc.default.id
