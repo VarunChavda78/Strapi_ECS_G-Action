@@ -11,6 +11,10 @@ resource "aws_ecr_repository" "strapi_repo" {
   tags = {
     Name = var.ecr_repo_name
   }
+  lifecycle {
+    prevent_destroy = true
+    ignore_changes  = all
+  }
 }
 
 # Get AWS Account ID (for pushing image to ECR)
