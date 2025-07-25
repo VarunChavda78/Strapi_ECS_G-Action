@@ -25,7 +25,7 @@ resource "aws_iam_role_policy_attachment" "ecs_execution_attach" {
 }
 
 resource "aws_cloudwatch_log_group" "strapi_logs" {
-  name              = "/ecs/strapi-varunnn"
+  name              = "/ecs/strapii-varunn"
   retention_in_days = 7
 }
 

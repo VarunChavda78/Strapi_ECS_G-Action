@@ -1,6 +1,6 @@
 # rds.tf
 resource "aws_db_subnet_group" "strapi_db_subnet_group" {
-  name       = "strapi-varunn--db-subnet-group"
+  name       = "strapi-varunn-ddb-subnet-group"
   subnet_ids = data.aws_subnets.default_vpc_subnets.ids
 
   tags = {
@@ -32,7 +32,7 @@ resource "aws_security_group" "strapi_rds_sg" {
   }
 }
 resource "aws_db_parameter_group" "strapi_postgres_param_group" {
-  name        = "strapi-postgres-param-group--varunn"
+  name        = "strapi-postgres-param-groupp-varunn"
   family      = "postgres17"
   description = "Custom parameter group for Strapi Postgres"
  
