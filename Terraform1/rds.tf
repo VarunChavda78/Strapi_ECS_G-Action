@@ -9,7 +9,7 @@ resource "aws_db_subnet_group" "strapi_db_subnet_group" {
 }
 
 resource "aws_security_group" "strapi_rds_sg" {
-  name        = "strapi-varun-rds-sg"
+  name        = "strapi-varunn-rds-sg"
   description = "Allow access to RDS from ECS tasks"
   vpc_id      = data.aws_vpc.default.id
 
